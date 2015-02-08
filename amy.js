@@ -25,10 +25,10 @@ var Amy = {
                 path = location.split("?"),
                 group_index = 1,
                 pattern_elements, regexp_result;
-            if (route.pattern_regexp.test(location)) {
+            if (route.pattern_regexp.test(path[0])) {
                 // Check for capturing groups
                 if (route.pattern.indexOf("/:") > -1 || route.pattern.indexOf("#:")) {
-                    regexp_result = route.pattern_regexp.exec(location);
+                    regexp_result = route.pattern_regexp.exec(path[0]);
                     pattern_elements = route.pattern.split(/\/|#/);
                     pattern_elements.forEach(function (element, index, array) {
                         if (element[0] === ":") {
