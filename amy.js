@@ -49,7 +49,7 @@ var Amy = {
             return true;
         });
         if (!routed) {
-            console.log("Page not found");
+            Amy.not_found(location);
         }
     },
 
@@ -80,7 +80,7 @@ var Amy = {
             decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
             query_params = {};
         while (match = search.exec(query_string)) {
-           query_params[decode(match[1])] = decode(match[2]);
+            query_params[decode(match[1])] = decode(match[2]);
         }
         return query_params;
     },
@@ -93,5 +93,10 @@ var Amy = {
             }
         }
         return obj1;
+    },
+
+    not_found: function (location) {
+        // Handle case when no route is found for location
+        console.log(location + " not found")
     }
 };
