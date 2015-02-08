@@ -22,7 +22,7 @@ var Amy = {
         var routed = false;
         this.routes.forEach(function (route, index, array) {
             var params = {location: location},
-                query_string = location.split("?"),
+                path = location.split("?"),
                 group_index = 1,
                 pattern_elements, regexp_result;
             if (route.pattern_regexp.test(location)) {
@@ -39,8 +39,8 @@ var Amy = {
                 }
                 // Parse query params
 
-                if (query_string.length > 1) {
-                    params = Amy.combine_obj(params, Amy.parse_query_string(query_string[1]));
+                if (path.length > 1) {
+                    params = Amy.combine_obj(params, Amy.parse_query_string(path[1]));
                 }
                 route.callback(params);
                 routed = true;
@@ -54,7 +54,7 @@ var Amy = {
     },
 
     pattern_to_regexp: function (pattern) {
-        // Convert amy pattern to regexp
+        // Convert amy pattern to regexp, cuts off query string
         var reg_exp, pattern_elements,
             with_capturing_groups = pattern;
         pattern_elements = pattern.split(/\/|#/);
@@ -63,7 +63,7 @@ var Amy = {
                 with_capturing_groups = with_capturing_groups.replace(element, "([\\w]*)");
             }
         });
-        reg_exp = with_capturing_groups.split("?")[0].replace("/", "\/");
+        reg_exp = "^" + with_capturing_groups.split("?")[0].replace("/", "\/") + "$";
         return new RegExp(reg_exp);
     },
 
