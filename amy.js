@@ -20,7 +20,7 @@ var Amy = {
     run_route: function (location) {
         // Loops through routes and call callback if route is in routes
         var routed = false;
-        this.routes.forEach(function (route, index, array) {
+        this.routes.forEach(function (route) {
             var params = {location: location},
                 path = location.split("?"),
                 group_index = 1,
@@ -30,7 +30,7 @@ var Amy = {
                 if (route.pattern.indexOf("/:") > -1 || route.pattern.indexOf("#:")) {
                     regexp_result = route.pattern_regexp.exec(path[0]);
                     pattern_elements = route.pattern.split(/\/|#/);
-                    pattern_elements.forEach(function (element, index, array) {
+                    pattern_elements.forEach(function (element) {
                         if (element[0] === ":") {
                             params[element.replace(":", "")] = regexp_result[group_index];
                             group_index += 1;
@@ -58,7 +58,7 @@ var Amy = {
         var reg_exp, pattern_elements,
             with_capturing_groups = pattern;
         pattern_elements = pattern.split(/\/|#/);
-        pattern_elements.forEach(function (element, index, array) {
+        pattern_elements.forEach(function (element) {
             if (element[0] === ":") {
                 with_capturing_groups = with_capturing_groups.replace(element, "([\\w]*)");
             }
@@ -97,6 +97,6 @@ var Amy = {
 
     not_found: function (location) {
         // Handle case when no route is found for location
-        console.log(location + " not found")
+        console.log(location + " not found");
     }
 };
