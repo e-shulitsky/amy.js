@@ -1,0 +1,25 @@
+{
+  "name": "amy.js",
+  "version": "0.0.0",
+  "description": "A JavaScript routing library",
+  "main": "amy.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/e-shulitsky/amy.js.git"
+  },
+  "author": "Yauhen Shulitski",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/e-shulitsky/amy.js/issues"
+  },
+  "devDependencies": {
+    "karma-firefox-launcher": "~0.1.4",
+    "jasmine-core": "~2.2.0",
+    "karma-jasmine": "~0.3.5",
+    "jasmine": "~2.2.1",
+    "karma": "~0.12.31"
+  }
+}
