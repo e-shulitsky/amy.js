@@ -61,7 +61,7 @@ describe("check parsing query string", function () {
     });
     it("replace + with space", function () {
         var key = "a",
-            value = "o+la+la",
+            value = "o+la",
             query = key + "=" + value,
             expected = {};
         expected[key] = value.replace("+", " ", "g");
