@@ -12,7 +12,7 @@ amy.js is designed to use in browser. Just add it somewhere in your html file:
 ```
 
 ###How to use
-1. Start by adding routes:
++ Start by adding routes:
 ```javascript
 (function () {
     Amy.add("/", function (params) {
@@ -20,14 +20,13 @@ amy.js is designed to use in browser. Just add it somewhere in your html file:
     });
 })();
 ```
-2. You can also use capturing groups:
++ You can also use capturing groups:
 ```javascript
 Amy.add("/:id/#:type/", function (params) {
     ...
 });
 ```
-
-3. `params` is the object, that contains capturing groups and query parameters. For the route from section 2 and link `/12/#week/?date=today` `params` object will look something like:
++ `params` is the object, that contains capturing groups and query parameters. For the route from section 2 and link `/12/#week/?date=today` `params` object will look something like:
 ```javascript
 params = {
     location: "/12/#week/?date=today",
@@ -36,20 +35,17 @@ params = {
     date: "today"
 }
 ```
-
-4. Set up what happens when location is not found in routes:
++ Set up what happens when location is not found in routes:
 ```javascript
 Amy.not_found = function (location) {
     do_something();
 }
 ```
-
-5. When you finished with configuration, call init() method:
++ When you finished with configuration, call init() method:
 ```javascript
 Amy.init();
 ```
-
-6. To manually run routes check:
++ To manually run routes check:
 ```javascript
 Amy.run_route("/new/location/");
 ```
