@@ -64,7 +64,7 @@ var Amy = {
             }
         });
         reg_exp = with_capturing_groups.split("?")[0].replace("/", "\/");
-        return new RegExp(reg_exp, "i");
+        return new RegExp(reg_exp);
     },
 
     on_location_change: function () {
