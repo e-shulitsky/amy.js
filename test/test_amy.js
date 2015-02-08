@@ -1,4 +1,4 @@
-/*globals Amy, describe, it, expect, toBe, toBeDefined, toEqual, afterEach*/
+/*globals Amy, window, console, describe, it, expect, toBe, toBeDefined, toEqual, afterEach, spyOn, beforeEach*/
 describe("check adding routes", function () {
     var callback = function () {},
         pattern = "/a/";
@@ -112,126 +112,207 @@ describe("run route", function () {
         g_params = {};
     });
 
+    beforeEach(function () {
+        spyOn(Amy, "not_found").and.callFake(function () {});
+    });
+
     it("check '/' vs '/'", function () {
+        var path = "/";
         Amy.add("/", function (params) {
             g_params = params;
         });
-        Amy.run_route("/");
-        expect(g_params).toEqual({location: "/"});
+        Amy.run_route(path);
+        expect(g_params).toEqual({location: path});
     });
 
     it("check '/' vs '/a/'", function () {
+        var path = "/a/";
         Amy.add("/", function (params) {
             g_params = params;
         });
-        Amy.run_route("/a/");
+        Amy.run_route(path);
         expect(g_params).toEqual({});
+        expect(Amy.not_found).toHaveBeenCalledWith(path);
     });
     it("check '/' vs '/#a'", function () {
+        var path = "/#a";
         Amy.add("/", function (params) {
             g_params = params;
         });
-        Amy.run_route("/#a");
+        Amy.run_route(path);
         expect(g_params).toEqual({});
+        expect(Amy.not_found).toHaveBeenCalledWith(path);
     });
     it("check '/' vs '/#'", function () {
+        var path = "/#";
         Amy.add("/", function (params) {
             g_params = params;
         });
-        Amy.run_route("/#");
+        Amy.run_route(path);
         expect(g_params).toEqual({});
+        expect(Amy.not_found).toHaveBeenCalledWith(path);
     });
     it("check '/' vs '/?a=b'", function () {
+        var path = "/?a=b";
         Amy.add("/", function (params) {
             g_params = params;
         });
-        Amy.run_route("/?a=b");
-        expect(g_params).toEqual({location: "/?a=b", a: "b"});
+        Amy.run_route(path);
+        expect(g_params).toEqual({location: path, a: "b"});
     });
 
 
     it("check '/a/' vs '/'", function () {
+        var path = "/";
         Amy.add("/a/", function (params) {
             g_params = params;
         });
-        Amy.run_route("/");
+        Amy.run_route(path);
         expect(g_params).toEqual({});
+        expect(Amy.not_found).toHaveBeenCalledWith(path);
     });
     it("check '/a/' vs '/a/?b=c&g=f'", function () {
+        var path = "/a/?b=c&g=f";
         Amy.add("/a/", function (params) {
             g_params = params;
         });
-        Amy.run_route("/a/?b=c&g=f");
-        expect(g_params).toEqual({location: "/a/?b=c&g=f", b: "c", g: "f"});
+        Amy.run_route(path);
+        expect(g_params).toEqual({location: path, b: "c", g: "f"});
     });
     it("check '/a/' vs '/a/#b'", function () {
+        var path = "/a/#b";
         Amy.add("/a/", function (params) {
             g_params = params;
         });
-        Amy.run_route("/a/#b");
+        Amy.run_route(path);
         expect(g_params).toEqual({});
+        expect(Amy.not_found).toHaveBeenCalledWith(path);
     });
 
 
     it("check '/a/#b/' vs '/a/#b/'", function () {
+        var path = "/a/#b/";
         Amy.add("/a/#b/", function (params) {
             g_params = params;
         });
-        Amy.run_route("/a/#b/");
-        expect(g_params).toEqual({location: "/a/#b/"});
+        Amy.run_route(path);
+        expect(g_params).toEqual({location: path});
     });
 
 
     it("check '/a/#b/c/' vs '/a/#b'", function () {
+        var path = "/a/#b";
         Amy.add("/a/#b/c/", function (params) {
             g_params = params;
         });
-        Amy.run_route("/a/#b");
+        Amy.run_route(path);
         expect(g_params).toEqual({});
+        expect(Amy.not_found).toHaveBeenCalledWith(path);
     });
     it("check '/a/#b/c/' vs '/a/#b/c/?a=b'", function () {
+        var path = "/a/#b/c/?a=b";
         Amy.add("/a/#b/c/", function (params) {
             g_params = params;
         });
-        Amy.run_route("/a/#b/c/?a=b");
-        expect(g_params).toEqual({location: "/a/#b/c/?a=b", a: "b"});
+        Amy.run_route(path);
+        expect(g_params).toEqual({location: path, a: "b"});
     });
 
 
     it("check '/:name/' vs '/amy/'", function () {
+        var path = "/amy/";
         Amy.add("/:name/", function (params) {
             g_params = params;
         });
-        Amy.run_route("/amy/");
-        expect(g_params).toEqual({location: "/amy/", name: "amy"});
+        Amy.run_route(path);
+        expect(g_params).toEqual({location: path, name: "amy"});
     });
     it("check '/:name/:age/' vs '/amy/23/'", function () {
+        var path = "/amy/23/";
         Amy.add("/:name/:age/", function (params) {
             g_params = params;
         });
-        Amy.run_route("/amy/23/");
-        expect(g_params).toEqual({location: "/amy/23/", name: "amy", age: "23"});
+        Amy.run_route(path);
+        expect(g_params).toEqual({location: path, name: "amy", age: "23"});
     });
     it("check '/:name/#:age/' vs '/amy/#23/'", function () {
+        var path = "/amy/#23/";
         Amy.add("/:name/#:age/", function (params) {
             g_params = params;
         });
-        Amy.run_route("/amy/#23/");
-        expect(g_params).toEqual({location: "/amy/#23/", name: "amy", age: "23"});
+        Amy.run_route(path);
+        expect(g_params).toEqual({location: path, name: "amy", age: "23"});
     });
     it("check '/:name/#:age/:gender/' vs '/amy/#23/f/'", function () {
+        var path = "/amy/#23/f/";
         Amy.add("/:name/#:age/:gender/", function (params) {
             g_params = params;
         });
-        Amy.run_route("/amy/#23/f/");
-        expect(g_params).toEqual({location: "/amy/#23/f/", name: "amy", age: "23", gender: "f"});
+        Amy.run_route(path);
+        expect(g_params).toEqual({location: path, name: "amy", age: "23", gender: "f"});
     });
     it("check '/:name/#:age/:gender/' vs '/amy/#23/f/?a=b&c=d'", function () {
+        var path = "/amy/#23/f/?a=b&c=d";
         Amy.add("/:name/#:age/:gender/", function (params) {
             g_params = params;
         });
-        Amy.run_route("/amy/#23/f/?a=b&c=d");
-        expect(g_params).toEqual({location: "/amy/#23/f/?a=b&c=d", name: "amy", age: "23", gender: "f", a: "b", c: "d"});
+        Amy.run_route(path);
+        expect(g_params).toEqual({location: path, name: "amy", age: "23", gender: "f", a: "b", c: "d"});
     });
 });
 
+
+describe("change location", function () {
+    afterEach(function () {
+        Amy.routes = [];
+    });
+
+    beforeEach(function () {
+        spyOn(Amy, "run_route");
+    });
+    
+    it("check that run route was called", function () {
+        Amy.on_location_change();
+        expect(Amy.run_route).toHaveBeenCalled();
+    });
+
+    it("check that run route was called with location", function () {
+        var path = "/a/#b/c?g=h&k=l";
+        window.history.pushState("page", "Title", path);
+        Amy.on_location_change();
+        expect(Amy.run_route).toHaveBeenCalledWith(path);
+    });
+});
+
+describe("not found", function () {
+    beforeEach(function () {
+        spyOn(console, "log").and.callFake(function () {});
+    });
+
+    it("check that methhod exists", function () {
+        var location = "/a/";
+        Amy.not_found(location);
+        expect(console.log).toHaveBeenCalledWith(location + " not found");
+    });
+});
+
+
+describe("init", function () {
+    afterEach(function () {
+        Amy.routes = [];
+    });
+
+    beforeEach(function () {
+        spyOn(Amy, "on_location_change");
+    });
+
+    it("check that on init on_location_change was called", function () {
+        Amy.init();
+        expect(Amy.on_location_change).toHaveBeenCalled();
+    });
+
+    it("check event listener", function () {
+        Amy.init();
+        expect(window.onhashchange).toEqual(Amy.on_location_change);
+    });
+});
