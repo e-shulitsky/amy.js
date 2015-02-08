@@ -4,7 +4,7 @@
   "description": "A JavaScript routing library",
   "main": "amy.js",
   "scripts": {
-    "test": "./node_modules/.bin/karma start --single-run --browsers Firefox"
+    "test": "./node_modules/karma/bin/karma start --single-run --browsers Firefox"
   },
   "repository": {
     "type": "git",
