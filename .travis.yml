@@ -6,7 +6,7 @@ before_script:
   - npm install -g codeclimate-test-reporter
 
 after_script:
-  - codeclimate < test/coverage/**/lcov.info
+  - codeclimate < coverage/**/lcov.info
   
 env:
   - CODECLIMATE_REPO_TOKEN=98a7786774f59111d4eb94c51615a083b76002cb43cb5b4e23d1d6bb8d210c1d
